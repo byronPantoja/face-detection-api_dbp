@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt-nodejs');
-const cors = require('cors')
+const cors = require('cors');
 
 const app = express();
 
@@ -26,22 +26,35 @@ const database = {
 	],
 	login: [
 		{
-			id: '987',
+			id: '187',
 			hash: '',
-			email: 'don@gmoe.com',
+			email: 'jo.doe@gmoe.com',
 		},
 	],
 };
 
-
 app.use(bodyParser.json());
-app.use(cors())
+app.use(cors());
 
 app.get('/', (req, res) => {
 	res.send(database.users);
 });
 
 app.post('/signin', (req, res) => {
+	// // Load hash from your password DB.
+	// bcrypt.compare(
+	// 	'cookies',
+	// 	'$2a$10$ev/lscN00F9CzDWPtDHUhuKt6l1ia1dr7t1MwHcEyQZiaX.Y.wEja',
+	// 	function(err, res) {
+	// 		// res == true
+	// 	}
+	// );
+	// bcrypt.compare(
+	// 	'veggies',
+	// 	'$2a$10$ev/lscN00F9CzDWPtDHUhuKt6l1ia1dr7t1MwHcEyQZiaX.Y.wEja',
+	// 	function(err, res) {}
+	// );
+
 	if (
 		req.body.email === database.users[0].email &&
 		req.body.password === database.users[0].password
@@ -52,11 +65,8 @@ app.post('/signin', (req, res) => {
 	}
 });
 
-app.post('/register', (req, res) => {
+app.post('/signup', (req, res) => {
 	const { email, name, password } = req.body;
-	bcrypt.hash(password, null, null, function(err, hash) {
-		console.log(hash);
-	});
 	database.users.push({
 		id: '003',
 		name: name,
@@ -97,25 +107,6 @@ app.post('/image', (req, res) => {
 	}
 });
 
-
-// // Load hash from your password DB.
-// bcrypt.compare("bacon", hash, function(err, res) {
-//   // res == true
-// });
-// bcrypt.compare("veggies", hash, function(err, res) {
-//   // res = false
-// });
-
 app.listen(3000, () => {
-	console.log('We are listening on port 3000');
+	console.log('app is running on port 3000');
 });
-
-/**
- *
- * -->res = this is working
- * /signin --> POST = success/fail
- * /register --> POST = user
- * /profile/:userId --> GET = user
- * /image --> PUT --> user
- *
- **/
