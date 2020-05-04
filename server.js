@@ -59,19 +59,18 @@ app.post('/signin', (req, res) => {
 		req.body.email === database.users[0].email &&
 		req.body.password === database.users[0].password
 	) {
-		res.json('success');
+		res.json(database.users[0]);
 	} else {
 		res.status(400).json('Error logging in.');
 	}
 });
 
 app.post('/signup', (req, res) => {
-	const { email, name, password } = req.body;
+	const { email, name, database } = req.body;
 	database.users.push({
 		id: '003',
 		name: name,
 		email: email,
-		password: password,
 		entries: 0,
 		joined: new Date(),
 	});
@@ -92,7 +91,7 @@ app.get('/profile/:id', (req, res) => {
 	}
 });
 
-app.post('/image', (req, res) => {
+app.put('/image', (req, res) => {
 	const { id } = req.body;
 	let found = false;
 	database.users.forEach((user) => {
